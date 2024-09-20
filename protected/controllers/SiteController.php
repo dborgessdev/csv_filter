@@ -4,18 +4,18 @@ class SiteController extends Controller
 {
 	public function actionUpload()
     {
-        header('Content-Type: application/json');
+        header('Content-Type: application/json'); // Define o tipo de conteúdo como JSON
         if (isset($_FILES['csv_file'])) {
             $file = CUploadedFile::getInstanceByName('csv_file');
 
             if ($file && $file->getExtensionName() === 'csv') {
                 $filePath = Yii::getPathOfAlias('webroot') . '/uploads/' . $file->getName();
 
-                if ($file->saveAs($filePath)) {
+                if ($file->saveAs($filePath)) { 
                     $data = [];
                     if (($handle = fopen($filePath, 'r')) !== false) {
                         while (($row = fgetcsv($handle, 1000, ",")) !== false) {
-                            $data[] = $row;
+                            $data[] = $row; // Armazena os dados CSV
                         }
                         fclose($handle);
                     }
