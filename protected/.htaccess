@@ -1,0 +1,8 @@
+RewriteEngine on
+
+# Se a solicitação for para um arquivo ou diretório existente, ignore-a
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Reescreva todas as outras solicitações para index.php
+RewriteRule . index.php
