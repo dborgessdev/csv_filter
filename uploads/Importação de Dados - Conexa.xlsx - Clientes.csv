@@ -1,0 +1,30 @@
+Apenas número,"Apenas número
+De 1 a 28","Pessoa Física = Nome Completo 
+ Pessoa Jurídica = Razão Social",,"50 caracteres, no máx.",Formato dd/mm/aaaa,14 dígitos,11 dígitos,,,"Adicione mais de um e-mail
+separando com ponto e vírgula","Adicione mais de um e-mail
+separando com ponto e vírgula","Adicione mais de um
+telefone (com DDD) separando com
+ponto e vírgula ","
+Adicione apenas um (1) número de celular (com DDD)",,"Adicione mais de um
+separando por ponto e vírgula","Adicione mais de um separando por ponto e vírgula
+10 caracteres, no máx.",,"S/N =
+sem número",,,,,Sigla UF,,"
+
+",,,"
+",,,,,"Apenas números
+Vírgula funciona como
+separador decimal","Apenas números
+Vírgula funciona como
+separador decimal",Apenas números,"S = sim
+N = não é retentor",,,,,,"
+
+
+","
+","
+Adicione mais de 
+um separando com
+vírgulas",,," C = casado  S = Solteiro
+D = Divorciado  V = Viúvo",formato dd/mm/aaaa,Apenas número
+ID do Cliente,Dia de vencimento *,Razão social ou Nome completo *,Nome fantasia,Pronúncia,Data de nascimento ou fundação,CNPJ*,CPF *,RG,Órgão expedidor,E-mail de financeiro *,E-mail de recado,Telefone,Celular *,DDR,Ramal exclusivo,Caixa postal,Rua  *,Número *,Complemento *,Bairro *,CEP *,Cidade *,Estado (UF) *,País,Rua de correspondência,Número de correspondência,Complemento de correspondência,Bairro de correspondência,CEP de correspondência,Cidade de correspondência,Estado (UF) de correspondência,Passaporte,Multa por atraso (%) ,Juros por dia (%),Dias de atraso para bloqueio,Retentor ISS,Inscrição municipal,Inscrição estadual ,Site,Ramo de atividade,Observações,Apresentação,Descrição de produtos/serviços,Tratamento,Orientação para atendimento,Profissão,Estado civil,Data do cadastro,ID da Unidade
+1,10,Carla Silva Barbosa,,,16/05/1990,,333.333.333-30,33.030.418-5,SSP-BA,carla@email.com;beatriz@meu-email.com.br,carla@email.com;andre@meu-email.com,1136521456;1148620029,11999856324,,,2; 354; 16,A,15,,Centro,456000,Atibaia,SP,,,,,,,,,,2,"0,055",15,N,,,www.site.com.br,,,,,Sra,,,C,20/04/2000,3
+2,5,OPAM Locações,OPAM,ôpam,02/06/2015,70.116.949/0001-37,,,,financeiro@opam.com,geral@opam.com; recado@opam.com,1132698547,11985471236,1132698547,301,,Rua Castro,5B,4 andar,Centro,456000,Atibaia,SP,,,,,,,,,,2,,15,S,1235416,65324785,www.opam.com,Locação de veículos,,Empresa para locação.,Carros para todas as ocasiões.,,"OPAM, como podemos facilitar a sua vida?",,,20/09/2019,

@@ -569,3 +569,42 @@ Stack trace:
 REQUEST_URI=/%3C?php%20echo%20Yii::app()-%3EcreateUrl(%22site/upload%22);%20?%3E
 HTTP_REFERER=http://localhost:8000/
 ---
+2024/09/22 19:12:57 [error] [php] move_uploaded_file(/home/daviborges/Documentos/conexa/csv_filter/uploads/Importação de Dados - Conexa.xlsx - Clientes.csv): Failed to open stream: No such file or directory (/home/daviborges/Documentos/conexa/csv_filter/framework/web/CUploadedFile.php:201)
+Stack trace:
+#0 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CUploadedFile.php(201): move_uploaded_file()
+#1 /home/daviborges/Documentos/conexa/csv_filter/protected/controllers/SiteController.php(14): CUploadedFile->saveAs()
+#2 /home/daviborges/Documentos/conexa/csv_filter/framework/web/actions/CInlineAction.php(49): SiteController->actionUpload()
+#3 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CController.php(308): CInlineAction->runWithParams()
+#4 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CController.php(286): SiteController->runAction()
+#5 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#6 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CWebApplication.php(282): SiteController->run()
+#7 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#8 /home/daviborges/Documentos/conexa/csv_filter/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#9 /home/daviborges/Documentos/conexa/csv_filter/index.php(12): CWebApplication->run()
+REQUEST_URI=/upload
+in /home/daviborges/Documentos/conexa/csv_filter/protected/controllers/SiteController.php (14)
+in /home/daviborges/Documentos/conexa/csv_filter/index.php (12)
+2024/09/22 19:13:03 [error] [php] move_uploaded_file(/home/daviborges/Documentos/conexa/csv_filter/uploads/Importação de Dados - Conexa.xlsx - Clientes.csv): Failed to open stream: No such file or directory (/home/daviborges/Documentos/conexa/csv_filter/framework/web/CUploadedFile.php:201)
+Stack trace:
+#0 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CUploadedFile.php(201): move_uploaded_file()
+#1 /home/daviborges/Documentos/conexa/csv_filter/protected/controllers/SiteController.php(14): CUploadedFile->saveAs()
+#2 /home/daviborges/Documentos/conexa/csv_filter/framework/web/actions/CInlineAction.php(49): SiteController->actionUpload()
+#3 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CController.php(308): CInlineAction->runWithParams()
+#4 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CController.php(286): SiteController->runAction()
+#5 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#6 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CWebApplication.php(282): SiteController->run()
+#7 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#8 /home/daviborges/Documentos/conexa/csv_filter/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#9 /home/daviborges/Documentos/conexa/csv_filter/index.php(12): CWebApplication->run()
+REQUEST_URI=/upload
+in /home/daviborges/Documentos/conexa/csv_filter/protected/controllers/SiteController.php (14)
+in /home/daviborges/Documentos/conexa/csv_filter/index.php (12)
+2024/09/22 20:28:26 [error] [exception.CHttpException.404] CHttpException: Unable to resolve the request "<". in /home/daviborges/Documentos/conexa/csv_filter/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#1 /home/daviborges/Documentos/conexa/csv_filter/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#2 /home/daviborges/Documentos/conexa/csv_filter/index.php(12): CApplication->run()
+#3 {main}
+REQUEST_URI=/%3C?php%20echo%20Yii::app()-%3EcreateUrl(%22site/upload%22);%20?%3E
+HTTP_REFERER=http://localhost:8080/
+---
