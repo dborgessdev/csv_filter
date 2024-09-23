@@ -652,3 +652,14 @@ Stack trace:
 REQUEST_URI=/site/page/view/about
 HTTP_REFERER=http://localhost:8080/
 ---
+2024/09/23 18:21:28 [error] [exception.CHttpException.404] CHttpException: The system is unable to find the requested action "page". in /home/daviborges/Documentos/conexa/csv_filter/framework/web/CController.php:486
+Stack trace:
+#0 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CController.php(270): CController->missingAction()
+#1 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CWebApplication.php(282): CController->run()
+#2 /home/daviborges/Documentos/conexa/csv_filter/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#3 /home/daviborges/Documentos/conexa/csv_filter/framework/base/CApplication.php(185): CWebApplication->processRequest()
+#4 /home/daviborges/Documentos/conexa/csv_filter/index.php(12): CApplication->run()
+#5 {main}
+REQUEST_URI=/site/page/view/about
+HTTP_REFERER=http://localhost:8080/
+---
