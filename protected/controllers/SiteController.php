@@ -52,6 +52,7 @@ class SiteController extends Controller
         $hasCnpj = !empty($cnpj) && preg_match('/^\d{14}$/', str_replace(['.', '/', '-'], '', $cnpj));
         $hasCpf = !empty($cpf) && preg_match('/^\d{11}$/', str_replace(['.', '-', ' '], '', $cpf));
 
+        // Verificando se CNPJ ou CPF estão preenchidos
         if (empty($cpf) && empty($cnpj)) {
             $errors[] = $errorPrefix . "CNPJ ou CPF é obrigatório.";
         } elseif (!$hasCnpj && !empty($cnpj)) {
@@ -60,16 +61,37 @@ class SiteController extends Controller
             $errors[] = $errorPrefix . "CPF inválido: " . $cpf;
         }
 
+        // Validação do dia de vencimento
         if (empty($row[1])) {
             $errors[] = $errorPrefix . "O dia de vencimento é obrigatório.";
         } elseif ($row[1] < 1 || $row[1] > 31) {
             $errors[] = $errorPrefix . "O dia de vencimento deve ser entre 1 e 31.";
         }
 
+        // Validação dos e-mails
         $emails = explode(';', $row[10]);
         foreach ($emails as $email) {
             if (!filter_var(trim($email), FILTER_VALIDATE_EMAIL)) {
                 $errors[] = $errorPrefix . "E-mail de financeiro inválido: " . trim($email);
+            }
+        }
+
+        // Verificação de campos obrigatórios
+        $requiredFields = [
+            'Dia de vencimento' => $row[1],        // Coluna 1
+            'Nome completo' => $row[2],            // Coluna 2
+            'Rua' => $row[17],                      // Coluna 17
+            'Número' => $row[18],                   // Coluna 18
+            'Bairro' => $row[20],                   // Coluna 20
+            'CEP' => $row[21],                      // Coluna 21
+            'Cidade' => $row[22],                   // Coluna 22
+            'Estado (UF)' => trim($row[23]),        // Coluna 23
+            'Celular' => trim($row[13]),            // Coluna 13
+        ];
+
+        foreach ($requiredFields as $fieldName => $value) {
+            if (empty(trim($value))) {
+                $errors[] = $errorPrefix . "$fieldName é obrigatório.";
             }
         }
 
