@@ -1,21 +1,46 @@
-/*General*/
-
-h1 {
-    color: #ff7f50; 
-}
-
+/* General */
 body {
     background-color: #f8f9fa; 
     color: #333; 
+    font-family: 'Roboto', sans-serif; /* Usando a fonte Roboto */
 }
 
+h1 {
+    color: #ff7f50; 
+    font-size: 2em; /* Tamanho do título */
+    margin-bottom: 20px; /* Espaço abaixo do título */
+}
+
+/* Navbar Style */
 #yw0 {
-    background-color: #FE5000;
-    
+    background-color: #FE5000; /* Laranja */
+    padding: 15px; /* Espaçamento interno */
+    list-style: none; /* Remove marcadores da lista */
+    display: flex; /* Alinha os itens horizontalmente */
+    justify-content: space-around; /* Espaçamento igual entre os itens */
 }
 
-a:hover {
-    color: #FE5000;
+#yw0 li {
+    display: inline; /* Faz os itens da lista ficarem em linha */
+}
+
+#yw0 a {
+    color: #fff; /* Texto em branco */
+    padding: 10px 15px; /* Espaçamento interno dos links */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Arredondar os cantos dos links */
+    transition: background-color 0.3s, color 0.3s; /* Transição suave */
+}
+
+#yw0 a:hover {
+    color: #fff; /* Texto em branco ao passar o mouse */
+    background-color: #FF4500; /* Laranja mais escuro para contraste */
+}
+
+/* Adicionando estilos para o estado ativo */
+#yw0 .active a {
+    background-color: #FF4500; /* Laranja mais escuro para a página ativa */
+    color: #fff; /* Texto em branco */
 }
 
 /* Table basic style */
@@ -36,7 +61,12 @@ th, td {
 
 th {
     background-color: #FE5000; /* Laranja */
-    color: #333; /* Texto em branco */
+    color: #333; /* Texto em cinza escuro para melhor contraste */
+}
+
+/* Alternating row colors */
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Um tom de cinza claro para linhas alternadas */
 }
 
 /* Table and class .table-container */
@@ -46,22 +76,23 @@ th {
     margin-top: 20px;
 }
 
-
 /* Buttons */
 .btn-primary {
     background-color: #FE5000; 
     border-color: #ff7f50; 
+    transition: background-color 0.3s, border-color 0.3s; /* Transição suave */
 }
 
 .btn-primary:hover {
-    background-color: #FE5000; 
+    background-color: #ff7f50; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombras no botão */
 }
-
 
 /* Modal Style */
 .modal-dialog {
     max-width: 80%; 
     width: auto; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra no modal */
 }
 
 .modal-body {
@@ -69,4 +100,23 @@ th {
     overflow-y: auto; 
     background-color: #ffffff; 
     color: #333; 
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5em; /* Reduzindo tamanho do título em telas menores */
+    }
+    table {
+        font-size: 0.9em; /* Ajustando tamanho da fonte da tabela */
+    }
+
+    /* Alterando cor de fundo da navbar para cinza escuro em telas menores */
+    #yw0 {
+        background-color: #333; /* Cinza escuro */
+    }
+
+    #yw0 a {
+        color: #fff; /* Texto em branco na navbar */
+    }
 }
