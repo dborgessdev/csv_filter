@@ -1,4 +1,24 @@
-/* Estilização básica da tabela */
+/*General*/
+
+h1 {
+    color: #ff7f50; 
+}
+
+body {
+    background-color: #f8f9fa; 
+    color: #333; 
+}
+
+#yw0 {
+    background-color: #FE5000;
+    
+}
+
+a:hover {
+    color: #FE5000;
+}
+
+/* Table basic style */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -19,59 +39,34 @@ th {
     color: #333; /* Texto em branco */
 }
 
-/* Estilizando a tabela e a classe .table-container */
+/* Table and class .table-container */
 .table-container {
     width: 100%;
     overflow-x: auto; /* Ativa rolagem horizontal dentro do div */
     margin-top: 20px;
 }
 
-/* Estilizando o corpo do modal */
-.modal-body {
-    max-height: 400px; /* Ajuste a altura conforme necessário */
-    overflow-y: auto; /* Permite rolagem vertical */
-    background-color: #ffffff; /* Fundo branco */
-    color: #333; /* Texto em cinza escuro para contraste */
-}
 
-/* Botões */
+/* Buttons */
 .btn-primary {
-    background-color: #FE5000; /* Laranja */
-    border-color: #ff7f50; /* Borda laranja */
+    background-color: #FE5000; 
+    border-color: #ff7f50; 
 }
 
 .btn-primary:hover {
-    background-color: #FE5000; /* Laranja mais escuro ao passar o mouse */
+    background-color: #FE5000; 
 }
 
-/* Cabeçalho da página */
-h1 {
-    color: #ff7f50; /* Título em laranja */
-}
 
-body {
-    background-color: #f8f9fa; /* Fundo claro */
-    color: #333; /* Texto em cinza escuro */
-}
-
-#yw0 {
-    background-color: #FE5000;
-    
-}
-
-a:hover {
-    color: #FE5000;
-}
-
-/* Estilizando o modal */
+/* Modal Style */
 .modal-dialog {
-    max-width: 80%; /* Aumenta a largura máxima do modal */
-    width: auto; /* Permite que a largura se ajuste automaticamente */
+    max-width: 80%; 
+    width: auto; 
 }
 
 .modal-body {
-    max-height: 500px; /* Ajuste a altura conforme necessário */
-    overflow-y: auto; /* Permite rolagem vertical */
-    background-color: #ffffff; /* Fundo branco */
-    color: #333; /* Texto em cinza escuro para contraste */
+    max-height: 500px; 
+    overflow-y: auto; 
+    background-color: #ffffff; 
+    color: #333; 
 }
