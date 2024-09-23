@@ -62,3 +62,16 @@ body {
 a:hover {
     color: #FE5000;
 }
+
+/* Estilizando o modal */
+.modal-dialog {
+    max-width: 80%; /* Aumenta a largura máxima do modal */
+    width: auto; /* Permite que a largura se ajuste automaticamente */
+}
+
+.modal-body {
+    max-height: 500px; /* Ajuste a altura conforme necessário */
+    overflow-y: auto; /* Permite rolagem vertical */
+    background-color: #ffffff; /* Fundo branco */
+    color: #333; /* Texto em cinza escuro para contraste */
+}
