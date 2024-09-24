@@ -67,7 +67,6 @@ class SiteController extends Controller
         } elseif ($row[1] < 1 || $row[1] > 31) {
             $errors[] = $errorPrefix . "O dia de vencimento deve ser entre 1 e 31.";
         }
-
         // Validação dos e-mails
         $emails = explode(';', $row[10]);
         foreach ($emails as $email) {
