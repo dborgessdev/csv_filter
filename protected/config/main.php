@@ -42,7 +42,8 @@ return array(
             'urlFormat' => 'path', // Define o formato das URLs
             'rules' => array(
                 'upload' => 'site/upload',      // Mapeia a rota /upload para a ação upload
-                'uploadCsv' => 'site/uploadCsv' // Mapeia a rota /uploadCsv para a ação uploadCsv
+                'api/auth' => 'api/authenticate',
+                'api/customer' => 'api/customer'
             ),
             'showScriptName' => false,  // Remove o index.php da URL
         ),

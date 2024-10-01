@@ -271,7 +271,7 @@ class CWebApplication extends CApplication
 	 * @param string $route the route of the current request. See {@link createController} for more details.
 	 * @throws CHttpException if the controller could not be created.
 	 */
-	public function runController($route)
+	public function runController($route) 
 	{
 		if(($ca=$this->createController($route))!==null)
 		{

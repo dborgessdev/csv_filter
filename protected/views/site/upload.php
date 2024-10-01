@@ -46,7 +46,7 @@
             <div class="modal-body" id="modalBody"></div> <!-- Conteúdo do modal -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Fechar</button>
-                <button type="button" class="btn btn-primary"><i class="fas fa-check"></i> Concluir Cadastro</button> <!-- Lógica para cadastro deve ser adicionada -->
+                <button id="finalizeRegistration" type="button" class="btn btn-primary"><i class="fas fa-check"></i> Concluir Cadastro</button> <!-- Botão para concluir cadastro -->
             </div>
         </div>
     </div>
@@ -58,12 +58,53 @@
 <!-- Define a URL do endpoint para o upload -->
 <script>
     var uploadUrl = '<?php echo Yii::app()->createUrl("site/upload"); ?>';
+    var authenticateUrl = '<?php echo Yii::app()->createUrl("api/authenticate"); ?>';
+    var customerUrl = '<?php echo Yii::app()->createUrl("api/customer"); ?>';
 </script>
 
 <!-- Inclui o script para o upload -->
 <script src="<?php echo Yii::app()->baseUrl; ?>/protected/js/upload.js"></script>
 
+<script>
+//garantindo que o DOM esteja carregado antes de associar o evento.
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('finalizeRegistration').onclick = function() {
+        var modalBody = document.getElementById('modalBody');
+        var dataToRegister = parseTableData(modalBody); // Função para extrair dados da tabela
+        authenticateAndRegister(dataToRegister);
+    };
+});
+// Botão para finalizar o cadastro
+document.getElementById('finalizeRegistration').onclick = function() {
+    var modalBody = document.getElementById('modalBody');
+    var dataToRegister = parseTableData(modalBody); // Função para extrair dados da tabela
+
+    // Autentica na API intermediária e, em seguida, cadastra os dados
+    authenticateAndRegister(dataToRegister);
+};
+
+function parseTableData(modalBody) {
+    // Função para converter os dados da tabela exibida no modal em um array de objetos
+    var table = modalBody.querySelector('table');
+    var rows = table.querySelectorAll('tbody tr');
+    var data = [];
+
+    rows.forEach(function(row) {
+        var cells = row.querySelectorAll('td');
+        var rowData = [];
+        cells.forEach(function(cell) {
+            rowData.push(cell.textContent.trim());
+        });
+        data.push(rowData);
+    });
+
+    return data;
+}
+
+</script>
+
 <!-- Inclui o Bootstrap JS para funcionalidade do modal -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

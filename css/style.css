@@ -6,14 +6,14 @@ body {
 }
 
 h1 {
-    color: #ff7f50; 
+    color: #333; 
     font-size: 2em; /* Tamanho do título */
     margin-bottom: 20px; /* Espaço abaixo do título */
 }
 
 /* Navbar Style */
 #yw0 {
-    background-color: #FE5000; /* Laranja */
+    background-color: #FE8203; /* Laranja */
     padding: 15px; /* Espaçamento interno */
     list-style: none; /* Remove marcadores da lista */
     display: flex; /* Alinha os itens horizontalmente */
@@ -34,12 +34,12 @@ h1 {
 
 #yw0 a:hover {
     color: #fff; /* Texto em branco ao passar o mouse */
-    background-color: #FF4500; /* Laranja mais escuro para contraste */
+    background-color: #FE8203; /* Laranja mais escuro para contraste */
 }
 
 /* Adicionando estilos para o estado ativo */
 #yw0 .active a {
-    background-color: #FF4500; /* Laranja mais escuro para a página ativa */
+    background-color: #FE8203; /* Laranja mais escuro para a página ativa */
     color: #fff; /* Texto em branco */
 }
 
@@ -60,13 +60,17 @@ th, td {
 }
 
 th {
-    background-color: #FE5000; /* Laranja */
+    background-color: #FE8203; /* Laranja */
     color: #333; /* Texto em cinza escuro para melhor contraste */
 }
 
 /* Alternating row colors */
 tr:nth-child(even) {
     background-color: #f2f2f2; /* Um tom de cinza claro para linhas alternadas */
+}
+
+li.active{
+    background-color: #FE8203;
 }
 
 /* Table and class .table-container */
@@ -78,7 +82,7 @@ tr:nth-child(even) {
 
 /* Buttons */
 .btn-primary {
-    background-color: #FE5000; 
+    background-color: #FE8203; 
     border-color: #ff7f50; 
     transition: background-color 0.3s, border-color 0.3s; /* Transição suave */
 }
