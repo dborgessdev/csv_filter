@@ -202,6 +202,7 @@ abstract class PHP_CodeCoverage_Report_HTML_Renderer
         return $breadcrumbs;
     }
 
+
     protected function getActiveBreadcrumb(PHP_CodeCoverage_Report_Node $node)
     {
         $buffer = sprintf(

@@ -1,16 +1,24 @@
 document.getElementById('uploadForm').onsubmit = function(event) {
-    event.preventDefault();
+    event.preventDefault(); // Previne o comportamento padrão do formulário
+
     var formData = new FormData(this);
-    
+    var output = document.getElementById('output'); // Onde mensagens serão exibidas
+    var gridBody = document.getElementById('gridBody'); // Onde a tabela será exibida
+    var finalizeRegistrationButton = document.getElementById('finalizeRegistration'); // Botão de concluir cadastro
+
+    // Limpar o conteúdo anterior (mensagens de erro/sucesso e tabela)
+    output.innerHTML = ''; 
+    gridBody.innerHTML = '';
+    finalizeRegistrationButton.classList.add('d-none'); // Ocultar o botão até que seja necessário
+
+    // Enviar a requisição de upload do arquivo CSV
     fetch(uploadUrl, { // URL do endpoint para upload
         method: 'POST',
         body: formData,
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data); // Verifique a resposta do servidor
-        var output = document.getElementById('output');
-        output.innerHTML = ''; // Limpa qualquer conteúdo anterior
+        console.log(data); // Verifique a resposta do servidor no console
 
         if (data.error) {
             alert(data.error); // Alerta para erro geral
@@ -20,9 +28,9 @@ document.getElementById('uploadForm').onsubmit = function(event) {
             output.innerHTML = '<p>' + data.errors.join('<br>') + '</p>';
         } else {
             if (Array.isArray(data) && data.length > 0) {
-                var table = '<table border="1" cellpadding="5" cellspacing="0"><thead><tr>';
+                var table = '<table class="table table-striped table-bordered" id="dataGrid"><thead><tr>';
 
-                // Lista atualizada de cabeçalhos
+                // Lista de cabeçalhos atualizada
                 var headers = [
                     'ID do Cliente', 'Dia de vencimento *', 'Razão social ou Nome completo *', 'Nome fantasia',
                     'Pronúncia', 'Data de nascimento ou fundação', 'CNPJ *', 'CPF *', 'RG', 'Órgão expedidor',
@@ -38,36 +46,35 @@ document.getElementById('uploadForm').onsubmit = function(event) {
                     'ID da Unidade'
                 ];
 
-                // Preenche o cabeçalho (TH) com os títulos
+                // Preenche o cabeçalho da tabela
                 headers.forEach((header) => {
                     table += '<th>' + header + '</th>';
                 });
 
                 table += '</tr></thead><tbody>';
 
-                // Itera sobre cada linha, começando da primeira linha de dados
+                // Popula a tabela com os dados
                 data.forEach((row) => {
-                    table += '<tr>'; // Inicia uma nova linha da tabela
+                    table += '<tr>';
                     row.forEach((cell) => {
-                        table += '<td>' + (cell !== undefined ? cell : '') + '</td>'; // Popula os dados (TD)
+                        table += '<td>' + (cell !== undefined ? cell : '') + '</td>'; // Preenche cada célula da linha
                     });
-                    table += '</tr>'; // Fecha a linha da tabela
+                    table += '</tr>';
                 });
-                
+
                 table += '</tbody></table>';
 
-                // Insere a tabela no modal
-                var modalBody = document.getElementById('modalBody');
-                modalBody.innerHTML = table; // Exibe a tabela no modal
-                var myModal = new bootstrap.Modal(document.getElementById('myModal'));
-                myModal.show(); // Exibe o modal
+                // Insere a tabela no elemento gridBody
+                gridBody.innerHTML = table;
 
-                // Adiciona a lógica de cadastro de clientes após o upload
-                document.getElementById('finalizeRegistration').onclick = function() {
-                    var modalBody = document.getElementById('modalBody');
-                    var dataToRegister = parseTableData(modalBody); // Função para extrair dados da tabela
+                // Exibe o botão "Concluir Cadastro" após a tabela ser exibida
+                finalizeRegistrationButton.classList.remove('d-none');
 
-                    // Autentica na API intermediária e, em seguida, cadastra os dados
+                // Lógica para cadastro dos clientes após o upload
+                finalizeRegistrationButton.onclick = function() {
+                    var dataToRegister = parseTableData(gridBody); // Extrai os dados da tabela
+
+                    // Autentica e registra os dados na API intermediária
                     authenticateAndRegister(dataToRegister);
                 };
 
@@ -76,12 +83,23 @@ document.getElementById('uploadForm').onsubmit = function(event) {
             }
         }
     })
-    .catch(error => console.error('Erro:', error));
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Ocorreu um erro ao enviar o arquivo. Por favor, tente novamente.');
+    });
 };
 
-// Função para converter os dados da tabela exibida no modal em um array de objetos
-function parseTableData(modalBody) {
-    var table = modalBody.querySelector('table');
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('finalizeRegistration').onclick = function() {
+        var gridBody = document.getElementById('gridBody');
+        var dataToRegister = parseTableData(gridBody); // Função para extrair dados da tabela
+        authenticateAndRegister(dataToRegister);
+    };
+});
+
+// Função para converter os dados da tabela exibida no grid em um array de objetos
+function parseTableData(gridBody) {
+    var table = gridBody.querySelector('table');
     var rows = table.querySelectorAll('tbody tr');
     var data = [];
 
@@ -97,8 +115,10 @@ function parseTableData(modalBody) {
     return data;
 }
 
+// Função para autenticar e cadastrar os dados extraídos
 function authenticateAndRegister(data) {
-    console.log('Dados de cliente:', data); // Adicione este log para verificar os dados
+    console.log('Dados de cliente:', data); // Log para verificar os dados recebidos
+
     // Faz a autenticação
     fetch(authenticateUrl, {
         method: 'POST',
@@ -107,7 +127,7 @@ function authenticateAndRegister(data) {
     .then(response => response.json())
     .then(authData => {
         if (authData.accessToken) {
-            console.log('Token recebido:', authData.accessToken); // log para verificar o token
+            console.log('Token recebido:', authData.accessToken); // Log para verificar o token
 
             // Se a autenticação for bem-sucedida, envia os dados dos clientes para a API intermediária
             data.forEach(cliente => {
@@ -119,8 +139,8 @@ function authenticateAndRegister(data) {
                     'widowed': 'V',
                     'not informed': null // 'null' será enviado como valor nulo
                 };
-            
-                // Converte o companyId para inteiro
+
+                // Converte o companyId para inteiro e mapeia os dados do cliente
                 let clienteObj = {
                     companyId: parseInt(cliente[0]) || null,
                     name: cliente[2] || "Empresa Fake ABC Ltda2",
@@ -144,9 +164,9 @@ function authenticateAndRegister(data) {
                         neighborhood: cliente[20] || "Conjunto Habitacional Parque da Floresta",
                         additionalDetails: cliente[19] || "Sala 4, Térreo"
                     },
-                    phones: cliente[12].split(';').map(phone => phone.trim()) || [],
-                    emailsMessage: cliente[11].split(';').map(email => email.trim()) || [],
-                    emailsFinancialMessages: cliente[10].split(';').map(email => email.trim()) || [],
+                    phones: cliente[12] ? cliente[12].split(';').map(phone => phone.trim()) : [],
+                    emailsMessage: cliente[11] ? cliente[11].split(';').map(email => email.trim()) : [],
+                    emailsFinancialMessages: cliente[10] ? cliente[10].split(';').map(email => email.trim()) : [],
                     isNetworkingProfileVisible: true,
                     isBlockedBookingCustomerArea: true,
                     isAllowedBookingOutsideBusinessHours: false,
@@ -166,8 +186,8 @@ function authenticateAndRegister(data) {
                     },
                     extensionNumbers: []
                 };
-            
-                // Verifica se o cliente é pessoa jurídica ou natural
+
+                // Verifica se o cliente é pessoa jurídica (CNPJ presente) ou física (CPF)
                 if (cliente[6]) { // Se CNPJ está presente
                     clienteObj.legalPerson = {
                         cnpj: cliente[6],
@@ -186,8 +206,8 @@ function authenticateAndRegister(data) {
                         maritalStatus: maritalStatusMap[cliente[47]] || null // Mapeia o estado civil
                     };
                 }
-            
-                // Chamada para a API intermediária
+
+                // Chamada para a API intermediária para cadastrar os dados do cliente
                 fetch(customerUrl, {
                     method: 'POST',
                     headers: {
@@ -204,19 +224,17 @@ function authenticateAndRegister(data) {
                 })
                 .then(registerData => {
                     if (registerData.success) {
-                        alert('Cadastro concluído com sucesso! ID: ' + registerData.id);
-                        location.reload(); // Recarrega a página após sucesso
+                        console.log('Cliente cadastrado com sucesso! ID: ' + registerData.id);
                     } else {
                         throw new Error(registerData.error || 'Erro ao cadastrar cliente');
                     }
                 })
                 .catch(error => {
                     console.error('Erro ao cadastrar cliente:', error);
-                    alert('Erro ao cadastrar cliente: ' + error.message);
                 });
             });
-            
-            // Função para formatar a data
+
+            // Função para formatar a data no formato 'YYYY-MM-DD'
             function formatDate(dateString) {
                 // Supondo que a data de entrada seja no formato 'DD/MM/YYYY'
                 const parts = dateString.split('/');
@@ -225,7 +243,7 @@ function authenticateAndRegister(data) {
                 }
                 return null; // Retorna null se o formato estiver incorreto
             }
-                        
+
         } else {
             throw new Error(authData.error || 'Erro ao autenticar');
         }
@@ -234,5 +252,4 @@ function authenticateAndRegister(data) {
         console.error('Erro:', error);
         alert('Erro durante o processo: ' + error.message);
     });
-    
 }

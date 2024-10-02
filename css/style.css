@@ -1,51 +1,24 @@
-/* General */
-body {
-    background-color: #f8f9fa; 
+/* grid Style */
+.grid-dialog {
+    max-width: 80%; /* Limite a largura do grid */
+    width: auto; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra no grid */
+    overflow: hidden; /* Impede que o conteúdo vaze para fora */
+}
+
+.grid-body {
+    max-height: 500px; /* Limita a altura do conteúdo do grid */
+    overflow-y: auto; /* Ativa rolagem vertical */
+    overflow-x: auto; /* Ativa rolagem horizontal */
+    background-color: #ffffff; 
     color: #333; 
-    font-family: 'Roboto', sans-serif; /* Usando a fonte Roboto */
-}
-
-h1 {
-    color: #333; 
-    font-size: 2em; /* Tamanho do título */
-    margin-bottom: 20px; /* Espaço abaixo do título */
-}
-
-/* Navbar Style */
-#yw0 {
-    background-color: #FE8203; /* Laranja */
-    padding: 15px; /* Espaçamento interno */
-    list-style: none; /* Remove marcadores da lista */
-    display: flex; /* Alinha os itens horizontalmente */
-    justify-content: space-around; /* Espaçamento igual entre os itens */
-}
-
-#yw0 li {
-    display: inline; /* Faz os itens da lista ficarem em linha */
-}
-
-#yw0 a {
-    color: #fff; /* Texto em branco */
-    padding: 10px 15px; /* Espaçamento interno dos links */
-    text-decoration: none; /* Remove underline */
-    border-radius: 5px; /* Arredondar os cantos dos links */
-    transition: background-color 0.3s, color 0.3s; /* Transição suave */
-}
-
-#yw0 a:hover {
-    color: #fff; /* Texto em branco ao passar o mouse */
-    background-color: #FE8203; /* Laranja mais escuro para contraste */
-}
-
-/* Adicionando estilos para o estado ativo */
-#yw0 .active a {
-    background-color: #FE8203; /* Laranja mais escuro para a página ativa */
-    color: #fff; /* Texto em branco */
+    padding: 10px; /* Adiciona algum espaçamento interno */
 }
 
 /* Table basic style */
 table {
-    width: 100%;
+    width: 100%; /* Ajusta para 100% da largura do contêiner */
+    min-width: 600px; /* Definindo uma largura mínima para evitar que a tabela fique muito estreita */
     border-collapse: collapse;
     margin: 20px 0;
 }
@@ -59,68 +32,81 @@ th, td {
     text-align: left;
 }
 
-th {
-    background-color: #FE8203; /* Laranja */
-    color: #333; /* Texto em cinza escuro para melhor contraste */
+/* Table basic style */
+table {
+    width: 100%; /* Garante que a tabela ocupe 100% da largura do contêiner */
+    border-collapse: collapse;
+    margin: 20px 0;
+    min-width: 800px; /* Define uma largura mínima para a tabela */
 }
 
-/* Alternating row colors */
-tr:nth-child(even) {
-    background-color: #f2f2f2; /* Um tom de cinza claro para linhas alternadas */
-}
-
-li.active{
-    background-color: #FE8203;
-}
-
-/* Table and class .table-container */
+/* .table-container para rolagem horizontal */
 .table-container {
-    width: 100%;
-    overflow-x: auto; /* Ativa rolagem horizontal dentro do div */
-    margin-top: 20px;
+    overflow-x: auto; /* Permite rolagem horizontal */
+    width: 100%; /* Garante que ocupa toda a largura do contêiner */
 }
 
-/* Buttons */
-.btn-primary {
-    background-color: #FE8203; 
-    border-color: #ff7f50; 
-    transition: background-color 0.3s, border-color 0.3s; /* Transição suave */
-}
-
-.btn-primary:hover {
-    background-color: #ff7f50; 
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombras no botão */
-}
-
-/* Modal Style */
-.modal-dialog {
-    max-width: 80%; 
-    width: auto; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra no modal */
-}
-
-.modal-body {
-    max-height: 500px; 
-    overflow-y: auto; 
-    background-color: #ffffff; 
-    color: #333; 
-}
-
-/* Responsividade */
+/* Responsividade da tabela */
 @media (max-width: 768px) {
-    h1 {
-        font-size: 1.5em; /* Reduzindo tamanho do título em telas menores */
-    }
     table {
-        font-size: 0.9em; /* Ajustando tamanho da fonte da tabela */
+        font-size: 0.8em; /* Ajusta o tamanho da fonte para telas menores */
     }
+}
 
-    /* Alterando cor de fundo da navbar para cinza escuro em telas menores */
-    #yw0 {
-        background-color: #333; /* Cinza escuro */
-    }
 
-    #yw0 a {
-        color: #fff; /* Texto em branco na navbar */
-    }
+/* Estilos para os botões */
+.btn-orange {
+    background-color: #f86011; /* Laranja Principal */
+    color: #ffffff; /* Texto Branco */
+    border: none; /* Sem borda */
+}
+
+.btn-orange:hover {
+    background-color: #ff9f4d; /* Laranja Claro para hover */
+}
+
+.btn-secondary {
+    background-color: #f86011; /* Azul Claro para botões secundários */
+    color: #ffffff; /* Texto Branco */
+    border: none; /* Sem borda */
+}
+
+btn btn-orange mt-2 {
+    background-color: #f86011
+}
+
+btn btn-orange mt-2 :hover{
+    background-color: rgb(107, 242, 54)
+}
+
+/* Estilos para a navbar */
+#mainmenu {
+    background-color: #333333; /* Cinza Escuro */
+}
+
+#mainmenu ul {
+    list-style: none; /* Remove marcadores da lista */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    background-color: #f86011;
+}
+
+#mainmenu li {
+    display: inline; /* Exibe os itens na mesma linha */
+    margin-right: 20px; /* Espaçamento entre os itens */
+}
+
+#mainmenu a {
+    color: #ffffff; /* Texto Branco para os links */
+    text-decoration: none; /* Remove sublinhado dos links */
+}
+
+#mainmenu a:hover {
+    color: #ff9f4d; /* Laranja Claro para hover */
+}
+
+/* Estilo para o fundo da página */
+body {
+    background-color: #f5f5f5; /* Cinza Claro */
+    color: #333333; /* Texto Cinza Escuro */
 }

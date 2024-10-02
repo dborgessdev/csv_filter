@@ -28,82 +28,38 @@
             <label for="csv_file" class="form-label"><i class="fas fa-file-csv"></i> Selecione um arquivo CSV:</label>
             <input type="file" name="csv_file" id="csv_file" class="form-control" accept=".csv" required>
         </div>
-        <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Enviar</button>
+        <button type="submit" class="btn btn-secondary">
+            <i class="fas fa-paper-plane"></i> Enviar
+        </button>
     </form>
-
-    <!-- Div para exibir os dados da tabela -->
-    <div id="output" class="table-container"></div>
 </div>
 
-<!-- Modal para exibir dados a serem cadastrados -->
-<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable"> <!-- Permite rolagem no modal -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-check-circle"></i> Dados a Serem Cadastrados</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modalBody"></div> <!-- Conteúdo do modal -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Fechar</button>
-                <button id="finalizeRegistration" type="button" class="btn btn-primary"><i class="fas fa-check"></i> Concluir Cadastro</button> <!-- Botão para concluir cadastro -->
-            </div>
-        </div>
-    </div>
+<!-- Div para exibir os dados da tabela -->
+<div id="output" class="table-container mb-4"></div>
+
+<!-- Grid para exibir dados a serem cadastrados -->
+<div class="table-container"> 
+    <div id="gridBody" class="mt-4"></div> <!-- Conteúdo do grid -->
+    <button id="finalizeRegistration" type="button" class="btn btn-orange mt-2 d-none"> <!-- Botão oculto inicialmente -->
+        <i class="fas fa-check"></i> Concluir Cadastro
+    </button>
 </div>
+
 
 <!-- Inclui jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Define a URL do endpoint para o upload -->
+<!-- Define variáveis globais para uso no upload.js -->
 <script>
-    var uploadUrl = '<?php echo Yii::app()->createUrl("site/upload"); ?>';
-    var authenticateUrl = '<?php echo Yii::app()->createUrl("api/authenticate"); ?>';
-    var customerUrl = '<?php echo Yii::app()->createUrl("api/customer"); ?>';
+    window.uploadUrl = '<?php echo Yii::app()->createUrl("site/upload"); ?>';
+    window.authenticateUrl = '<?php echo Yii::app()->createUrl("api/authenticate"); ?>';
+    window.customerUrl = '<?php echo Yii::app()->createUrl("api/customer"); ?>';
 </script>
 
 <!-- Inclui o script para o upload -->
 <script src="<?php echo Yii::app()->baseUrl; ?>/protected/js/upload.js"></script>
 
-<script>
-//garantindo que o DOM esteja carregado antes de associar o evento.
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('finalizeRegistration').onclick = function() {
-        var modalBody = document.getElementById('modalBody');
-        var dataToRegister = parseTableData(modalBody); // Função para extrair dados da tabela
-        authenticateAndRegister(dataToRegister);
-    };
-});
-// Botão para finalizar o cadastro
-document.getElementById('finalizeRegistration').onclick = function() {
-    var modalBody = document.getElementById('modalBody');
-    var dataToRegister = parseTableData(modalBody); // Função para extrair dados da tabela
-
-    // Autentica na API intermediária e, em seguida, cadastra os dados
-    authenticateAndRegister(dataToRegister);
-};
-
-function parseTableData(modalBody) {
-    // Função para converter os dados da tabela exibida no modal em um array de objetos
-    var table = modalBody.querySelector('table');
-    var rows = table.querySelectorAll('tbody tr');
-    var data = [];
-
-    rows.forEach(function(row) {
-        var cells = row.querySelectorAll('td');
-        var rowData = [];
-        cells.forEach(function(cell) {
-            rowData.push(cell.textContent.trim());
-        });
-        data.push(rowData);
-    });
-
-    return data;
-}
-
-</script>
-
-<!-- Inclui o Bootstrap JS para funcionalidade do modal -->
+<!-- Inclui o Bootstrap JS para funcionalidade do grid -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
