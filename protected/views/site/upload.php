@@ -45,6 +45,17 @@
     <i class="fas fa-check"></i> Concluir Cadastro
 </button>
 
+<!-- Modal para exibir o relatório de cadastro -->
+<div id="reportModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close-button" onclick="document.getElementById('reportModal').style.display='none'">&times;</span>
+            <h4>Relatório de Cadastro</h4>
+        </div>
+        <div class="modal-body" id="reportBody"></div>
+    </div>
+</div>
+
 
 <!-- Inclui jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

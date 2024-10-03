@@ -129,8 +129,12 @@ function authenticateAndRegister(data) {
         if (authData.accessToken) {
             console.log('Token recebido:', authData.accessToken); // Log para verificar o token
 
+            // Arrays para armazenar os resultados do cadastro
+            let successResults = [];
+            let errorResults = [];
+
             // Se a autenticação for bem-sucedida, envia os dados dos clientes para a API intermediária
-            data.forEach(cliente => {
+            const registerPromises = data.map(cliente => {
                 // Mapeamento de maritalStatus
                 const maritalStatusMap = {
                     'married': 'C',
@@ -208,7 +212,7 @@ function authenticateAndRegister(data) {
                 }
 
                 // Chamada para a API intermediária para cadastrar os dados do cliente
-                fetch(customerUrl, {
+                return fetch(customerUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -224,19 +228,26 @@ function authenticateAndRegister(data) {
                 })
                 .then(registerData => {
                     if (registerData.success) {
+                        successResults.push({ id: registerData.id, name: clienteObj.name });
                         console.log('Cliente cadastrado com sucesso! ID: ' + registerData.id);
                     } else {
                         throw new Error(registerData.error || 'Erro ao cadastrar cliente');
                     }
                 })
                 .catch(error => {
+                    errorResults.push({ name: clienteObj.name, error: error.message });
                     console.error('Erro ao cadastrar cliente:', error);
                 });
             });
 
+            // Espera todos os cadastros serem tentados e exibe o relatório
+            Promise.all(registerPromises)
+                .then(() => {
+                    displayRegistrationReport(successResults, errorResults);
+                });
+            
             // Função para formatar a data no formato 'YYYY-MM-DD'
             function formatDate(dateString) {
-                // Supondo que a data de entrada seja no formato 'DD/MM/YYYY'
                 const parts = dateString.split('/');
                 if (parts.length === 3) {
                     return `${parts[2]}-${parts[1]}-${parts[0]}`; // Retorna no formato 'YYYY-MM-DD'
@@ -252,4 +263,32 @@ function authenticateAndRegister(data) {
         console.error('Erro:', error);
         alert('Erro durante o processo: ' + error.message);
     });
+}
+
+// Função para exibir o relatório de cadastro
+function displayRegistrationReport(successResults, errorResults) {
+    const reportModal = document.getElementById('reportModal');
+    const reportBody = document.getElementById('reportBody');
+    reportBody.innerHTML = '';
+
+    // Adiciona os resultados de sucesso
+    if (successResults.length > 0) {
+        reportBody.innerHTML += '<h5>Clientes cadastrados com sucesso:</h5><ul>';
+        successResults.forEach(result => {
+            reportBody.innerHTML += `<li class="success">ID: ${result.id} - Nome: ${result.name}</li>`;
+        });
+        reportBody.innerHTML += '</ul>';
+    }
+
+    // Adiciona os resultados de erro
+    if (errorResults.length > 0) {
+        reportBody.innerHTML += '<h5>Erros durante o cadastro:</h5><ul>';
+        errorResults.forEach(result => {
+            reportBody.innerHTML += `<li class="error">Nome: ${result.name} - Erro: ${result.error}</li>`;
+        });
+        reportBody.innerHTML += '</ul>';
+    }
+
+    // Exibe o modal
+    reportModal.style.display = 'block'; // Mostra o modal
 }

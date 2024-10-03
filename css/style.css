@@ -110,3 +110,76 @@ body {
     background-color: #f5f5f5; /* Cinza Claro */
     color: #333333; /* Texto Cinza Escuro */
 }
+
+/* Estilo do modal */
+.modal {
+    display: none; /* Oculta o modal por padrão */
+    position: fixed; /* Fica fixo na tela */
+    z-index: 1000; /* Colocado em cima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Largura total da tela */
+    height: 100%; /* Altura total da tela */
+    overflow: auto; /* Permite rolagem se necessário */
+    background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro com transparência */
+}
+
+/* Estilo do conteúdo do modal */
+.modal-content {
+    background-color: #fefefe; /* Fundo branco */
+    margin: 15% auto; /* Margem para centralizar */
+    padding: 20px; /* Padding interno */
+    border: 1px solid #888; /* Borda cinza */
+    width: 80%; /* Largura do modal */
+    max-width: 600px; /* Largura máxima */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+}
+
+/* Estilo do cabeçalho do modal */
+.modal-header {
+    background-color: #FE8203; /* Cor laranja */
+    color: white; /* Texto branco */
+    padding: 10px 15px; /* Padding interno */
+    border-top-left-radius: 8px; /* Bordas arredondadas no canto superior esquerdo */
+    border-top-right-radius: 8px; /* Bordas arredondadas no canto superior direito */
+}
+
+/* Estilo do botão de fechar */
+.close-button {
+    color: white; /* Texto branco */
+    float: right; /* Alinhamento à direita */
+    font-size: 28px; /* Tamanho do texto */
+    font-weight: bold; /* Negrito */
+    cursor: pointer; /* Cursor de ponteiro */
+}
+
+/* Estilo do corpo do modal */
+.modal-body {
+    padding: 15px; /* Padding interno */
+}
+
+/* Estilo das listas de resultados */
+.modal-body ul {
+    list-style-type: none; /* Remove marcadores da lista */
+    padding: 0; /* Remove padding da lista */
+}
+
+.modal-body li {
+    margin: 5px 0; /* Margem entre os itens */
+    padding: 10px; /* Padding interno */
+    background-color: #f1f1f1; /* Fundo cinza claro */
+    border-radius: 4px; /* Bordas arredondadas */
+}
+
+/* Estilo para erros */
+.modal-body li.error {
+    background-color: #f8d7da; /* Fundo vermelho claro */
+    color: #721c24; /* Texto vermelho escuro */
+}
+
+/* Estilo para sucessos */
+.modal-body li.success {
+    background-color: #d4edda; /* Fundo verde claro */
+    color: #155724; /* Texto verde escuro */
+}
