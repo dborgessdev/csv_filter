@@ -144,7 +144,7 @@ function authenticateAndRegister(data) {
                     'not informed': null // 'null' será enviado como valor nulo
                 };
 
-                // Converte o companyId para inteiro e mapeia os dados do cliente
+                // Cria um objeto com os dados do cliente
                 let clienteObj = {
                     companyId: parseInt(cliente[0]) || null,
                     name: cliente[2] || "Empresa Fake ABC Ltda2",
