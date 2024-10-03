@@ -40,10 +40,10 @@
 <!-- Grid para exibir dados a serem cadastrados -->
 <div class="table-container"> 
     <div id="gridBody" class="mt-4"></div> <!-- Conteúdo do grid -->
-    <button id="finalizeRegistration" type="button" class="btn btn-orange mt-2 d-none"> <!-- Botão oculto inicialmente -->
-        <i class="fas fa-check"></i> Concluir Cadastro
-    </button>
 </div>
+<button id="finalizeRegistration" type="button" class="btn btn-orange mt-2 d-none"> <!-- Botão oculto inicialmente -->
+    <i class="fas fa-check"></i> Concluir Cadastro
+</button>
 
 
 <!-- Inclui jQuery -->
