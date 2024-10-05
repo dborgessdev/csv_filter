@@ -16,6 +16,7 @@
     
     <!-- Inclui Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 </head>
 <body>
 
@@ -34,10 +35,12 @@
     </form>
 </div>
 
-<!-- Div para exibir os dados da tabela -->
-<div id="output" class="table-container mb-4"></div>
+<!-- Div para exibir mensagens de erro -->
+<div id="errorMessages" class="alert alert-danger d-none"></div>
 
-<!-- Grid para exibir dados a serem cadastrados -->
+
+<!-- Div para exibir os dados da tabela  + form com buttom para-->
+<div id="output" class="table-container mb-4"></div>
 <div class="table-container"> 
     <div id="gridBody" class="mt-4"></div> <!-- Conteúdo do grid -->
 </div>
@@ -55,6 +58,11 @@
         <div class="modal-body" id="reportBody"></div>
     </div>
 </div>
+
+<script src="protected/js/api.js"></script>
+<script src="protected/js/ui.js"></script>
+<script src="protected/js/upload.js"></script>
+<script src="protected/js/validator.js"></script>
 
 
 <!-- Inclui jQuery -->
