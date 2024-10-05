@@ -17,6 +17,42 @@
     <!-- Inclui Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <style>
+        #progressBarContainer {
+            display: none;
+            margin-top: 20px;
+        }
+        .modal {
+            display: none; /* Esconde o modal inicialmente */
+            position: fixed;
+            z-index: 1; /* Fica em cima de outros conteúdos */
+            left: 0;
+            top: 0;
+            width: 100%; /* Largura total */
+            height: 100%; /* Altura total */
+            overflow: auto; /* Permite rolagem se necessário */
+            background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com opacidade */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* Centraliza o modal */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Largura do modal */
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
@@ -38,15 +74,19 @@
 <!-- Div para exibir mensagens de erro -->
 <div id="errorMessages" class="alert alert-danger d-none"></div>
 
-
 <!-- Div para exibir os dados da tabela  + form com buttom para-->
 <div id="output" class="table-container mb-4"></div>
 <div class="table-container"> 
     <div id="gridBody" class="mt-4"></div> <!-- Conteúdo do grid -->
 </div>
-<button id="finalizeRegistration" type="button" class="btn btn-orange mt-2 d-none"> <!-- Botão oculto inicialmente -->
+<button id="finalizeRegistration" type="button" class="btn btn-warning mt-2 d-none"> <!-- Botão oculto inicialmente -->
     <i class="fas fa-check"></i> Concluir Cadastro
 </button>
+
+<!-- Progressbar -->
+<div id="progressBarContainer" class="progress" style="display: none;">
+  <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+</div>
 
 <!-- Modal para exibir o relatório de cadastro -->
 <div id="reportModal" class="modal">
@@ -56,17 +96,15 @@
             <h4>Relatório de Cadastro</h4>
         </div>
         <div class="modal-body" id="reportBody"></div>
+        <div class="modal-footer">
+            <a href="http://localhost:8080/" class="btn btn-primary">Início</a>
+        </div>
     </div>
 </div>
 
-<script src="protected/js/api.js"></script>
-<script src="protected/js/ui.js"></script>
-<script src="protected/js/upload.js"></script>
-<script src="protected/js/validator.js"></script>
-
-
 <!-- Inclui jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Define variáveis globais para uso no upload.js -->
 <script>
@@ -77,9 +115,9 @@
 
 <!-- Inclui o script para o upload -->
 <script src="<?php echo Yii::app()->baseUrl; ?>/protected/js/upload.js"></script>
-
-<!-- Inclui o Bootstrap JS para funcionalidade do grid -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="protected/js/api.js"></script>
+<script src="protected/js/ui.js"></script>
+<script src="protected/js/validator.js"></script>
 
 </body>
 </html>

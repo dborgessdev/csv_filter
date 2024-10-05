@@ -1,5 +1,3 @@
-// upload.js
-
 function formatDate(dateString) {
     // Exemplo de formatação de data no formato DD/MM/YYYY
     const dateParts = dateString.split('/');
@@ -70,7 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const successResults = [];
                 const errorResults = [];
 
-                const registerPromises = data.map(async cliente => {
+                const totalClients = data.length;
+
+                showProgressBar(); // Exibir a barra de progresso ao iniciar o cadastro
+
+                const registerPromises = data.map(async (cliente, index) => {
                     const maritalStatusMap = {
                         'married': 'C',
                         'single': 'S',
@@ -156,20 +158,48 @@ document.addEventListener('DOMContentLoaded', function() {
                     } catch (error) {
                         errorResults.push({ name: clienteObj.name, error: error.message });
                     }
+
+                    // Atualiza a barra de progresso após cada cadastro
+                    const percentage = Math.round(((index + 1) / totalClients) * 100);
+                    updateProgressBar(percentage);
                 });
 
                 await Promise.all(registerPromises);
+                hideProgressBar(); // Oculta a barra de progresso ao final do cadastro
+
+                // Aqui você deve exibir a tela de sucesso ou relatório
                 if (typeof UI !== 'undefined') {
-                    UI.displayRegistrationReport(successResults, errorResults);
+                    UI.displayRegistrationReport(successResults, errorResults); // Exibe o relatório de cadastro
                 }
+
+                // Exibir modal de sucesso
+                $('#successModal').modal('show'); // Mostra o modal de sucesso
+
             } else {
                 throw new Error(authData.error || 'Erro ao autenticar');
             }
         } catch (error) {
             console.error('Erro durante o registro:', error);
+            hideProgressBar(); // Oculta a barra de progresso em caso de erro
             if (typeof UI !== 'undefined') {
                 UI.showError('Ocorreu um erro durante o registro. Por favor, tente novamente.');
             }
         }
     }
 });
+
+function showProgressBar() {
+    document.getElementById('progressBarContainer').style.display = 'block';
+    updateProgressBar(0); // Reseta a barra de progresso para 0% ao iniciar
+}
+
+function updateProgressBar(percentage) {
+    const progressBar = document.getElementById('progressBar');
+    progressBar.style.width = percentage + '%';
+    progressBar.setAttribute('aria-valuenow', percentage);
+    progressBar.textContent = percentage + '%';
+}
+
+function hideProgressBar() {
+    document.getElementById('progressBarContainer').style.display = 'none';
+}

@@ -183,3 +183,14 @@ body {
     background-color: #d4edda; /* Fundo verde claro */
     color: #155724; /* Texto verde escuro */
 }
+
+
+.progress {
+    margin-top: 20px;
+    height: 30px;
+  }
+  
+  .progress-bar {
+    background-color: #4caf50; /* Cor da barra de progresso */
+    transition: width 0.5s ease-in-out;
+  }
