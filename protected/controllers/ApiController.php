@@ -87,17 +87,17 @@ class ApiController extends Controller
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($httpCode == 200 || $httpCode == 201) {
+            if ($httpCode == 200 || $httpCode == 201) {
             return json_decode($response, true);
         } elseif ($httpCode == 400) {
             // Bad Request: A solicitação tem dados inválidos
-            return ['error' => 'Requisição inválida. Verifique os dados enviados.'];
+            return ['error' => 'Requisição inválida. Verifique se os dados enviados estão corretos.'];
         } elseif ($httpCode == 401) {
             // Unauthorized: Falha de autenticação, token inválido ou expirado
             return ['error' => 'Não autorizado. Verifique as credenciais ou token de acesso.'];
         } elseif ($httpCode == 404) {
             // Not Found: O recurso solicitado não foi encontrado
-            return ['error' => 'Recurso não encontrado. Verifique a URL ou o ID do recurso.'];
+            return ['error' => 'C não encontrado. Verifique a URL ou o ID do recurso.'];
         } elseif ($httpCode == 500) {
             // Internal Server Error: Erro interno do servidor na API
             return ['error' => 'Erro interno no servidor. Tente novamente mais tarde.'];

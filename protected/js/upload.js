@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function authenticateAndRegister(data) {
         let authData;
-        const storedToken = localStorage.getItem('accessToken'); // Busca o token armazenado
+        const storedToken = localStorage.getItem('accessToken');
 
         if (storedToken) {
             authData = { accessToken: storedToken }; // Usa o token armazenado
@@ -92,27 +92,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Cria um objeto com os dados do cliente
             let clienteObj = {
-                companyId: parseInt(cliente[0]) || null,
-                name: cliente[2] || "Empresa Fake ABC Ltda2",
+                companyId: parseInt(cliente[49]) || null,
+                name: cliente[2],
                 tradeName: cliente[3] || "",
                 pronunciation: cliente[4] || null,
-                fieldOfActivity: cliente[40] || "Indústria",
+                fieldOfActivity: cliente[40],
                 profession: cliente[46] || null,
-                notes: cliente[41] || "Uma empresa que produz droides de batalha, incluindo os Droidekas",
-                cellNumber: cliente[13] || "11988997766",
-                website: cliente[39] || "fakeabc.app",
+                notes: cliente[41],
+                cellNumber: cliente[13],
+                website: cliente[39],
                 hasLoginAccess: false,
                 automaticallyIssueNfse: "notIssue",
-                notesNfse: cliente[42] || "Teste observações na NFSe",
+                notesNfse: cliente[42],
                 hasIssRetention: true,
                 address: {
-                    zipCode: cliente[21] || "13058-111",
-                    state: cliente[23] || "SP",
-                    city: cliente[22] || "Campinas",
-                    street: cliente[17] || "Rua Alziro Arten",
-                    number: cliente[18] || "443",
-                    neighborhood: cliente[20] || "Conjunto Habitacional Parque da Floresta",
-                    additionalDetails: cliente[19] || "Sala 4, Térreo"
+                    zipCode: cliente[21],
+                    state: cliente[23],
+                    city: cliente[22],
+                    street: cliente[17],
+                    number: cliente[18],
+                    neighborhood: cliente[20],
+                    additionalDetails: cliente[19]
                 },
                 phones: cliente[12] ? cliente[12].split(';').map(phone => phone.trim()) : [],
                 emailsMessage: cliente[11] ? cliente[11].split(';').map(email => email.trim()) : [],
@@ -121,18 +121,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 isBlockedBookingCustomerArea: true,
                 isAllowedBookingOutsideBusinessHours: false,
                 internetPlan: "Plano 20MB",
-                businessPresentation: cliente[42] || "Breve apresentação da empresa",
-                offeredServicesProducts: cliente[43] || "Serviços e produtos oferecidos",
-                receptionOrientations: cliente[45] || "Orientações de atendimento",
+                businessPresentation: cliente[42],
+                offeredServicesProducts: cliente[43],
+                receptionOrientations: cliente[45],
                 mailingOrientations: "Orientações de correspondência",
                 mailingAddress: {
-                    zipCode: cliente[29] || "13060-008",
-                    state: cliente[31] || "SP",
-                    city: cliente[30] || "Campinas",
-                    street: cliente[25] || "Rua Antônio Menito",
-                    number: cliente[26] || "264",
-                    neighborhood: cliente[28] || "Jardim Anchieta",
-                    additionalDetails: cliente[27] || "Bloco A1"
+                    zipCode: cliente[29],
+                    state: cliente[31],
+                    city: cliente[30],
+                    street: cliente[25],
+                    number: cliente[26],
+                    neighborhood: cliente[28],
+                    additionalDetails: cliente[27]
                 },
                 extensionNumbers: []
             };
@@ -181,13 +181,20 @@ document.addEventListener('DOMContentLoaded', function() {
         await Promise.all(registerPromises);
         hideProgressBar(); // Oculta a barra de progresso ao final do cadastro
 
-        // Aqui você deve exibir a tela de sucesso ou relatório
+        // Exibir a tela de sucesso ou relatório
         if (typeof UI !== 'undefined') {
             UI.displayRegistrationReport(successResults, errorResults); // Exibe o relatório de cadastro
         }
 
         // Exibir modal de sucesso
         $('#successModal').modal('show'); // Mostra o modal de sucesso
+
+        // Limpa o localStorage após todos os cadastros serem realizados
+        localStorage.removeItem('accessToken');
+        console.log('Token removido do localStorage');
+
+        // Se desejar limpar todo o localStorage:
+        // localStorage.clear(); // Limpa todo o localStorage
     }
 });
 
