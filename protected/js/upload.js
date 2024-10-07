@@ -167,9 +167,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (error) {
                 if (error.message.includes('400')) {
                     // Exiba um erro específico para validação
-                    errorResults.push({ name: clienteObj.name, error: 'Erro de validação: ' + error.message });
+                    errorResults.push({ line: index + 1, name: clienteObj.name, error: 'Erro de validação: ' + error.message });
                 } else {
-                    errorResults.push({ name: clienteObj.name, error: 'Erro inesperado: ' + error.message });
+                    errorResults.push({ line: index + 1, name: clienteObj.name, error: 'Erro inesperado: ' + error.message });
                 }
             }
 
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Exibir a tela de sucesso ou relatório
         if (typeof UI !== 'undefined') {
-            UI.displayRegistrationReport(successResults, errorResults); // Exibe o relatório de cadastro
+            UI.displayRegistrationReport(successResults, errorResults); // Exibe o relatório de cadastro, incluindo as linhas dos erros
         }
 
         // Exibir modal de sucesso

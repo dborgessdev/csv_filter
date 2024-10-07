@@ -68,6 +68,7 @@ class UI {
         gridBody.innerHTML = table;
     }
 
+    // Função para exibir o relatório de cadastro com sucesso e erros, incluindo o número da linha nos erros
     static displayRegistrationReport(successResults, errorResults) {
         const reportModal = document.getElementById('reportModal');
         const reportBody = document.getElementById('reportBody');
@@ -82,11 +83,11 @@ class UI {
             reportBody.innerHTML += '</ul>';
         }
 
-        // Adiciona os resultados de erro
+        // Adiciona os resultados de erro, incluindo o número da linha
         if (errorResults.length > 0) {
             reportBody.innerHTML += '<h5>Erros durante o cadastro:</h5><ul>';
             errorResults.forEach(result => {
-                reportBody.innerHTML += `<li class="error">Nome: ${result.name} - Erro: ${result.error}</li>`;
+                reportBody.innerHTML += `<li class="error">Linha: ${result.line} - Nome: ${result.name} - Erro: ${result.error}</li>`;
             });
             reportBody.innerHTML += '</ul>';
         }
