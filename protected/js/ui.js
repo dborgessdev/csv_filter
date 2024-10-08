@@ -18,19 +18,18 @@ class UI {
         alert(message);
     }
 
-    // Nova função para exibir erros no HTML
     static showErrors(errors) {
         const output = document.getElementById('output');
-        output.innerHTML = ''; // Limpa erros anteriores
-        output.classList.remove('d-none'); // Certifica que o div de erros esteja visível
+        output.innerHTML = ''; 
+        output.classList.remove('d-none'); 
         
         let errorList = '<ul>';
         errors.forEach(error => {
             errorList += `<li>${error}</li>`;
         });
         errorList += '</ul>';
-        output.innerHTML = errorList; // Adiciona a lista de erros no div
-        output.classList.add('alert', 'alert-danger'); // Adiciona estilo de alerta ao div
+        output.innerHTML = errorList;
+        output.classList.add('alert', 'alert-danger');
     }
 
     static updateGrid(data) {
@@ -68,13 +67,12 @@ class UI {
         gridBody.innerHTML = table;
     }
 
-    // Função para exibir o relatório de cadastro com sucesso e erros, incluindo o número da linha nos erros
     static displayRegistrationReport(successResults, errorResults) {
         const reportModal = document.getElementById('reportModal');
         const reportBody = document.getElementById('reportBody');
         reportBody.innerHTML = '';
 
-        // Adiciona os resultados de sucesso
+
         if (successResults.length > 0) {
             reportBody.innerHTML += '<h5>Clientes cadastrados com sucesso:</h5><ul>';
             successResults.forEach(result => {
@@ -83,7 +81,7 @@ class UI {
             reportBody.innerHTML += '</ul>';
         }
 
-        // Adiciona os resultados de erro, incluindo o número da linha
+
         if (errorResults.length > 0) {
             reportBody.innerHTML += '<h5>Erros durante o cadastro:</h5><ul>';
             errorResults.forEach(result => {
@@ -92,7 +90,6 @@ class UI {
             reportBody.innerHTML += '</ul>';
         }
 
-        // Exibe o modal
         reportModal.style.display = 'block'; // Mostra o modal
     }
 }

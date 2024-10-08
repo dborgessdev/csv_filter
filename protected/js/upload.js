@@ -1,11 +1,11 @@
 function formatDate(dateString) {
-    // Exemplo de formatação de data no formato DD/MM/YYYY
+
     const dateParts = dateString.split('/');
     if (dateParts.length === 3) {
-        // Retorna a data formatada
-        return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; // Formato YYYY-MM-DD
+
+        return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; 
     }
-    return null; // Retorna null se a data não estiver no formato esperado
+    return null;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(this);
         const finalizeRegistrationButton = document.getElementById('finalizeRegistration');
 
-        // Verifica se o UI está definido e limpa a saída
+
         if (typeof UI !== 'undefined') {
             UI.clearOutput();
             UI.clearGrid();
@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         try {
             const response = await fetch(uploadUrl, { method: 'POST', body: formData });
-            const textResponse = await response.text(); // Lê a resposta como texto
-            console.log('Texto da resposta:', textResponse); // Log do texto da resposta
+            const textResponse = await response.text(); 
+            console.log('Texto da resposta:', textResponse); 
 
-            const data = JSON.parse(textResponse); // Converte o texto em JSON
-            console.log('Dados recebidos:', data); // Log dos dados recebidos
+            const data = JSON.parse(textResponse);
+            console.log('Dados recebidos:', data);
 
-            // Verifica se a resposta contém erros
+
             if (data.errors && data.errors.length > 0) {
-                // Exibe as mensagens de erro no HTML
+
                 if (typeof UI !== 'undefined') {
                     UI.showErrors(data.errors);
                 }
@@ -43,11 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 finalizeRegistrationButton.classList.remove('d-none');
 
                 finalizeRegistrationButton.onclick = async function() {
-                    // Passar os dados dos clientes para a função de registro
+
                     await authenticateAndRegister(data);
                 };
             } else {
-                // Exiba uma mensagem de erro se não houver dados válidos
+
                 if (typeof UI !== 'undefined') {
                     UI.showError('Nenhum dado de cliente retornado.');
                 }
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const storedToken = localStorage.getItem('accessToken');
 
         if (storedToken) {
-            authData = { accessToken: storedToken }; // Usa o token armazenado
+            authData = { accessToken: storedToken };
         } else {
             authData = await Api.authenticate();
             if (authData.accessToken) {
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const errorResults = [];
         const totalClients = data.length;
 
-        showProgressBar(); // Exibir a barra de progresso ao iniciar o cadastro
+        showProgressBar();
 
         const registerPromises = data.map(async (cliente, index) => {
             const maritalStatusMap = {
@@ -87,10 +87,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 'single': 'S',
                 'divorced': 'D',
                 'widowed': 'V',
-                'not informed': null // 'null' será enviado como valor nulo
+                'not informed': null
             };
 
-            // Cria um objeto com os dados do cliente
+
             let clienteObj = {
                 companyId: parseInt(cliente[49]) || null,
                 name: cliente[2],
@@ -137,23 +137,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 extensionNumbers: []
             };
 
-            // Verifica se o cliente é pessoa jurídica (CNPJ presente) ou física (CPF)
-            if (cliente[6]) { // Se CNPJ está presente
+            if (cliente[6]) {
                 clienteObj.legalPerson = {
                     cnpj: cliente[6],
                     foundationDate: cliente[5] ? formatDate(cliente[5]) : null,
-                    municipalInscription: cliente[42] || null, // Preencha conforme necessário
-                    stateInscription: cliente[41] || null // Preencha conforme necessário
+                    municipalInscription: cliente[42] || null,
+                    stateInscription: cliente[41] || null 
                 };
             } else {
-                // Ajuste na data de nascimento
+
                 const birthDate = cliente[9];
                 clienteObj.naturalPerson = {
                     cpf: cliente[7] || null,
                     rg: cliente[8] || null,
-                    birthDate: birthDate ? formatDate(birthDate) : null, // Formata a data corretamente
+                    birthDate: birthDate ? formatDate(birthDate) : null,
                     issuingAuthority: cliente[10] || null,
-                    maritalStatus: maritalStatusMap[cliente[47]] || null // Mapeia o estado civil
+                    maritalStatus: maritalStatusMap[cliente[47]] || null 
                 };
             }
 
@@ -165,42 +164,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     throw new Error(registerData.error || 'Erro ao cadastrar cliente');
                 }
             } catch (error) {
-                if (error.message.includes('400')) {
-                    // Exiba um erro específico para validação
+                if (error.message.includes('400')) { 
                     errorResults.push({ line: index + 1, name: clienteObj.name, error: 'Erro de validação: ' + error.message });
                 } else {
                     errorResults.push({ line: index + 1, name: clienteObj.name, error: 'Erro inesperado: ' + error.message });
                 }
             }
 
-            // Atualiza a barra de progresso após cada cadastro
+
             const percentage = Math.round(((index + 1) / totalClients) * 100);
             updateProgressBar(percentage);
         });
 
         await Promise.all(registerPromises);
-        hideProgressBar(); // Oculta a barra de progresso ao final do cadastro
+        hideProgressBar();
 
         // Exibir a tela de sucesso ou relatório
         if (typeof UI !== 'undefined') {
-            UI.displayRegistrationReport(successResults, errorResults); // Exibe o relatório de cadastro, incluindo as linhas dos erros
+            UI.displayRegistrationReport(successResults, errorResults);
         }
 
-        // Exibir modal de sucesso
-        $('#successModal').modal('show'); // Mostra o modal de sucesso
 
-        // Limpa o localStorage após todos os cadastros serem realizados
+        $('#successModal').modal('show'); 
+
+
         localStorage.removeItem('accessToken');
         console.log('Token removido do localStorage');
 
-        // Se desejar limpar todo o localStorage:
         // localStorage.clear(); // Limpa todo o localStorage
     }
 });
 
 function showProgressBar() {
     document.getElementById('progressBarContainer').style.display = 'block';
-    updateProgressBar(0); // Reseta a barra de progresso para 0% ao iniciar
+    updateProgressBar(0); 
 }
 
 function updateProgressBar(percentage) {

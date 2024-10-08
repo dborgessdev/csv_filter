@@ -1,19 +1,18 @@
-// validator.js
 class Validator { 
-    static parseTableData(gridBody) { // realizar o parse dos dados da tabela
+    static parseTableData(gridBody) { 
         const table = gridBody.querySelector('table');
         const rows = table.querySelectorAll('tbody tr');
         const data = [];
 
-        rows.forEach(row => { // percorrer as linhas
+        rows.forEach(row => { 
             const cells = row.querySelectorAll('td'); 
             const rowData = [];
             cells.forEach(cell => {
                 rowData.push(cell.textContent.trim()); 
             });
-            data.push(rowData); // adiciona os dados
+            data.push(rowData);
         });
 
-        return data; // retorna os dados
+        return data;
     }
 }

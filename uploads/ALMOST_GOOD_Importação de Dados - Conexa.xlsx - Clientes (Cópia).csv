@@ -1,0 +1,34 @@
+Apenas número,"Apenas número
+De 1 a 28","Pessoa Física = Nome Completo 
+ Pessoa Jurídica = Razão Social",,"50 caracteres, no máx.",Formato dd/mm/aaaa,14 dígitos,11 dígitos,,,"Adicione mais de um e-mail
+separando com ponto e vírgula","Adicione mais de um e-mail
+separando com ponto e vírgula","Adicione mais de um
+telefone (com DDD) separando com
+ponto e vírgula ","
+Adicione apenas um (1) número de celular (com DDD)",,"Adicione mais de um
+separando por ponto e vírgula","Adicione mais de um separando por ponto e vírgula
+10 caracteres, no máx.",,"S/N =
+sem número",,,,,Sigla UF,,"
+
+",,,"
+",,,,,"Apenas números
+Vírgula funciona como
+separador decimal","Apenas números
+Vírgula funciona como
+separador decimal",Apenas números,"S = sim
+N = não é retentor",,,,,,"
+
+
+","
+","
+Adicione mais de 
+um separando com
+vírgulas",,," C = casado  S = Solteiro
+D = Divorciado  V = Viúvo",formato dd/mm/aaaa,Apenas número
+ID do Cliente,Dia de vencimento *,Razão social ou Nome completo *,Nome fantasia,Pronúncia,Data de nascimento ou fundação,CNPJ*,CPF *,RG,Órgão expedidor,E-mail de financeiro *,E-mail de recado,Telefone,Celular *,DDR,Ramal exclusivo,Caixa postal,Rua  *,Número *,Complemento *,Bairro *,CEP *,Cidade *,Estado (UF) *,País,Rua de correspondência,Número de correspondência,Complemento de correspondência,Bairro de correspondência,CEP de correspondência,Cidade de correspondência,Estado (UF) de correspondência,Passaporte,Multa por atraso (%) ,Juros por dia (%),Dias de atraso para bloqueio,Retentor ISS,Inscrição municipal,Inscrição estadual ,Site,Ramo de atividade,Observações,Apresentação,Descrição de produtos/serviços,Tratamento,Orientação para atendimento,Profissão,Estado civil,Data do cadastro,ID da Unidade
+1,10,Carla Silva Barbosa,,,16/05/1990,,321.122.080-12,33.030.418-50,SSP-BA,carla@email.com;beatriz@meu-email.com.br,carla@email.com;andre@meu-email.com,1136521456;1148620029,11999856324,,,2; 354; 16,A,15,CASA,Centro,456000,Atibaia,SP,,,,,,,,,,2,"0,055",15,N,,,www.site.com.br,,,,,Sra,,,C,20/04/2000,3
+2,5,OPAM Locações,OPAM,ôpam,02/06/2015,70116949000137,,,,financeiro@opam.com,geral@opam.com; recado@opam.com,1136521456;1148620029,11985471236,1132698547,301,,Rua Castro,5B,4 andar,Centro,456000,Atibaia,SP,,,,,,,,,,2,,15,S,1235416,65324785,www.opam.com,Locação de veículos,,Empresa para locação.,Carros para todas as ocasiões.,,"OPAM, como podemos facilitar a sua vida?",,D,20/09/2019,3
+3,12,João da Silva,João,Jôan,05/07/1985,,123.456.789-00,33.030.418-50,SSP-SP,joao@exemplo.com,recado.joao@exemplo.com,11 91234-5678,11 98765-4321,1,101,123,Avenida Brasil,100,Apto 12,Centro,01010-000,São Paulo,SP,Brasil,Avenida Brasil,100,Apto 12,Centro,01010-000,São Paulo,SP,N/A,"0,1","0,02",5,S,12345678,12345678,www.joaosite.com,Comércio,Nenhuma,"Olá, sou João",Consultoria em serviços.,Sr,Tratar como urgente,Analista,C,01/10/2024,3
+4,15,Maria Oliveira,Maria,Mária,20/03/1992,,234.567.890-01,44.050.327-21,SSP-RJ,maria@exemplo.com,geral.maria@exemplo.com,21 92345-6789,21 98876-5432,2,202,456,Rua das Flores,50,2º andar,Jardim,02020-000,Rio de Janeiro,RJ,Brasil,Rua das Flores,50,2º andar,Jardim,02020-000,Rio de Janeiro,RJ,N/A,"0,05","0,01",3,N,87654321,23456789,www.mariasite.com,Serviços,-,"Olá, sou Maria",Atendemos todo o Brasil.,S,Atender com calma,Designer,S,01/10/2024,3
+5,28,Locações do Brasil,LDB,El-de-bee,10/09/2010,34.567.890/0001-13,,,SSP-MG,financeiro@ldb.com,contato@ldb.com,31 93456-7890,31 98876-1234,3,303,789,Rua das Árvores,75,-,Parque,03030-000,Belo Horizonte,MG,Brasil,Rua das Árvores,75,-,Parque,03030-000,Belo Horizonte,MG,N/A,"0,07","0,03",7,S,98765432,34567890,www.ldbsites.com,Locação,Importante,"Olá, somos a LDB",Locação de equipamentos.,S,Atender sempre,Gerente,D,01/10/2024,3
+6,10,Empresa X,Ex,Ex,15/12/2000,45.678.901/0001-24,,,SSP-PR,financeiro@empresaX.com,recado.empresaX@exemplo.com,41 91234-5678,41 98765-4321,4,404,888,Rua do Sol,300,Sala 10,Centro,04040-000,Curitiba,PR,Brasil,Rua do Sol,300,Sala 10,Centro,04040-000,Curitiba,PR,N/A,"0,02","0,01",4,N,65432187,45678901,www.empresax.com,Indústria,N/A,"Olá, somos a Ex",Fabricamos produtos de qualidade.,S,Sempre disponível,Técnico,V,01/10/2024,3
