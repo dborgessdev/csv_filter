@@ -16,43 +16,6 @@
     
     <!-- Inclui Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <style>
-        #progressBarContainer {
-            display: none;
-            margin-top: 20px;
-        }
-        .modal {
-            display: none; /* Esconde o modal inicialmente */
-            position: fixed;
-            z-index: 1; /* Fica em cima de outros conteúdos */
-            left: 0;
-            top: 0;
-            width: 100%; /* Largura total */
-            height: 100%; /* Altura total */
-            overflow: auto; /* Permite rolagem se necessário */
-            background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro com opacidade */
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto; /* Centraliza o modal */
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; /* Largura do modal */
-        }
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
 </head>
 <body>
 
@@ -73,6 +36,29 @@
 
 <!-- Div para exibir mensagens de erro -->
 <div id="errorMessages" class="alert alert-danger d-none"></div>
+
+<!-- Modal de Login -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close-button" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
+            <h4>Login para Autenticação</h4>
+        </div>
+        <div class="modal-body">
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Autenticar</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Div para exibir os dados da tabela  + form com buttom para-->
 <div id="output" class="table-container mb-4"></div>

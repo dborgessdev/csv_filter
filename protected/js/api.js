@@ -1,10 +1,18 @@
 // api.js
 class Api {
-    static async authenticate() {
+    static async authenticate(credentials) {
         const response = await fetch(authenticateUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 
+                'Content-Type': 'application/json' 
+            },
+            body: JSON.stringify(credentials) // Envia as credenciais no corpo da requisição
         });
+
+        if (!response.ok) {
+            throw new Error('Erro ao autenticar: ' + response.statusText);
+        }
+
         return response.json();
     }
 

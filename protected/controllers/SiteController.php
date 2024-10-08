@@ -7,44 +7,50 @@ class SiteController extends Controller
         header('Content-Type: application/json');
         $errors = [];
         $rowNumber = 3;
-
-        if (isset($_FILES['csv_file'])) { 
-            $file = CUploadedFile::getInstanceByName('csv_file');
-
-            if ($file && $file->getExtensionName() === 'csv') {
-                $filePath = Yii::getPathOfAlias('webroot') . '/uploads/' . $file->getName();
-
-                if ($file->saveAs($filePath)) {
-                    $data = [];
-                    if (($handle = fopen($filePath, 'r')) !== false) {
-                        fgetcsv($handle, 1000, ",");
-                        fgetcsv($handle, 1000, ",");
-
-                        while (($row = fgetcsv($handle, 1000, ",")) !== false) { 
-
-                            $rowErrors = []; 
-                            if (!$this->validateRow($row, $rowErrors, $rowNumber)) { 
-                                foreach ($rowErrors as &$error) {
-                                    $error = "Linha $rowNumber: $error"; 
-                                }
-                                $errors = array_merge($errors, $rowErrors); 
-                            }
-                            $data[] = $row;
-                            $rowNumber++;
-                        }
-                        fclose($handle);
-                    }
-                    echo json_encode(empty($errors) ? $data : ['errors' => $errors]);
-                    Yii::app()->end();
-                } else {
-                    echo json_encode(['error' => 'Falha ao salvar o arquivo.']);
-                }
-            } else {
-                echo json_encode(['error' => 'Arquivo CSV inválido.']);
-            }
-        } else {
+    
+        // Verifica se um arquivo foi enviado
+        if (!isset($_FILES['csv_file'])) {
             echo json_encode(['error' => 'Nenhum arquivo foi enviado.']);
+            return; // Retorno precoce
         }
+    
+        $file = CUploadedFile::getInstanceByName('csv_file');
+    
+        // Verifica se o arquivo é válido e se a extensão é CSV
+        if (!$file || $file->getExtensionName() !== 'csv') {
+            echo json_encode(['error' => 'Arquivo CSV inválido.']);
+            return; // Retorno precoce
+        }
+    
+        $filePath = Yii::getPathOfAlias('webroot') . '/uploads/' . $file->getName();
+    
+        // Verifica se o arquivo foi salvo com sucesso
+        if (!$file->saveAs($filePath)) {
+            echo json_encode(['error' => 'Falha ao salvar o arquivo.']);
+            return; // Retorno precoce
+        }
+    
+        $data = [];
+        if (($handle = fopen($filePath, 'r')) !== false) {
+            fgetcsv($handle, 1000, ",");
+            fgetcsv($handle, 1000, ",");
+    
+            while (($row = fgetcsv($handle, 1000, ",")) !== false) { 
+                $rowErrors = []; 
+                if (!$this->validateRow($row, $rowErrors, $rowNumber)) { 
+                    foreach ($rowErrors as &$error) {
+                        $error = "Linha $rowNumber: $error"; 
+                    }
+                    $errors = array_merge($errors, $rowErrors); 
+                }
+                $data[] = $row;
+                $rowNumber++;
+            }
+            fclose($handle);
+        }
+    
+        echo json_encode(empty($errors) ? $data : ['errors' => $errors]);
+        Yii::app()->end();
     }
 
 

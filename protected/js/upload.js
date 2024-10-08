@@ -1,8 +1,8 @@
-function formatDate(dateString) {
+let clientData = []; // Variável global para armazenar os dados dos clientes
 
+function formatDate(dateString) {
     const dateParts = dateString.split('/');
     if (dateParts.length === 3) {
-
         return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`; 
     }
     return null;
@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(this);
         const finalizeRegistrationButton = document.getElementById('finalizeRegistration');
 
-
         if (typeof UI !== 'undefined') {
             UI.clearOutput();
             UI.clearGrid();
@@ -27,27 +26,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const textResponse = await response.text(); 
             console.log('Texto da resposta:', textResponse); 
 
-            const data = JSON.parse(textResponse);
-            console.log('Dados recebidos:', data);
+            clientData = JSON.parse(textResponse); // Armazenar os dados dos clientes
+            console.log('Dados recebidos:', clientData);
 
-
-            if (data.errors && data.errors.length > 0) {
-
+            if (clientData.errors && clientData.errors.length > 0) {
                 if (typeof UI !== 'undefined') {
-                    UI.showErrors(data.errors);
+                    UI.showErrors(clientData.errors);
                 }
-            } else if (data && data.length > 0) {
+            } else if (clientData && clientData.length > 0) {
                 if (typeof UI !== 'undefined') {
-                    UI.updateGrid(data);
+                    UI.updateGrid(clientData);
                 }
                 finalizeRegistrationButton.classList.remove('d-none');
 
-                finalizeRegistrationButton.onclick = async function() {
-
-                    await authenticateAndRegister(data);
+                // Atualiza o onclick para abrir o modal de login
+                finalizeRegistrationButton.onclick = function() {
+                    document.getElementById('loginModal').style.display = 'block';
                 };
             } else {
-
                 if (typeof UI !== 'undefined') {
                     UI.showError('Nenhum dado de cliente retornado.');
                 }
@@ -60,28 +56,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    async function authenticateAndRegister(data) {
-        let authData;
+    async function authenticateAndRegister() {
         const storedToken = localStorage.getItem('accessToken');
 
-        if (storedToken) {
-            authData = { accessToken: storedToken };
-        } else {
-            authData = await Api.authenticate();
-            if (authData.accessToken) {
-                localStorage.setItem('accessToken', authData.accessToken); // Armazena o novo token
-            } else {
-                throw new Error(authData.error || 'Erro ao autenticar');
-            }
+        if (!storedToken) {
+            throw new Error('Token de acesso não encontrado.');
         }
 
         const successResults = [];
         const errorResults = [];
-        const totalClients = data.length;
+        const totalClients = clientData.length; // Use a variável global
 
         showProgressBar();
 
-        const registerPromises = data.map(async (cliente, index) => {
+        const registerPromises = clientData.map(async (cliente, index) => {
             const maritalStatusMap = {
                 'married': 'C',
                 'single': 'S',
@@ -89,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 'widowed': 'V',
                 'not informed': null
             };
-
 
             let clienteObj = {
                 companyId: parseInt(cliente[49]) || null,
@@ -145,7 +132,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     stateInscription: cliente[41] || null 
                 };
             } else {
-
                 const birthDate = cliente[9];
                 clienteObj.naturalPerson = {
                     cpf: cliente[7] || null,
@@ -157,20 +143,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                const registerData = await Api.registerCustomer(clienteObj, authData.accessToken);
+                const registerData = await Api.registerCustomer(clienteObj, storedToken);
                 if (registerData.success) {
                     successResults.push({ id: registerData.id, name: clienteObj.name });
                 } else {
                     throw new Error(registerData.error || 'Erro ao cadastrar cliente');
                 }
             } catch (error) {
-                if (error.message.includes('400')) { 
-                    errorResults.push({ line: index + 1, name: clienteObj.name, error: 'Erro de validação: ' + error.message });
-                } else {
-                    errorResults.push({ line: index + 1, name: clienteObj.name, error: 'Erro inesperado: ' + error.message });
-                }
+                errorResults.push({
+                    line: index + 1,
+                    name: clienteObj.name,
+                    error: 'Erro: ' + (error.message || 'Erro inesperado.')
+                });
             }
-
 
             const percentage = Math.round(((index + 1) / totalClients) * 100);
             updateProgressBar(percentage);
@@ -184,15 +169,35 @@ document.addEventListener('DOMContentLoaded', function() {
             UI.displayRegistrationReport(successResults, errorResults);
         }
 
-
-        $('#successModal').modal('show'); 
-
+        $('#successModal').modal('show'); // Mostra o modal de sucesso
 
         localStorage.removeItem('accessToken');
         console.log('Token removido do localStorage');
-
-        // localStorage.clear(); // Limpa todo o localStorage
     }
+
+    // Adiciona o evento de submit ao formulário de login
+    document.getElementById('loginForm').onsubmit = async function(event) {
+        event.preventDefault();
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const authData = await Api.authenticate({ username, password }); // Chama a função de autenticação com credenciais
+            if (authData.accessToken) {
+                localStorage.setItem('accessToken', authData.accessToken); // Armazena o token
+
+                // Fecha o modal de login e chama a função de registro
+                document.getElementById('loginModal').style.display = 'none';
+                await authenticateAndRegister(); // Chama a função para registrar os clientes com o token obtido
+            } else {
+                throw new Error('Erro ao autenticar. Verifique suas credenciais.');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Falha na autenticação. Por favor, tente novamente.');
+        }
+    };
 });
 
 function showProgressBar() {
