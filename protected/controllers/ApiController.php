@@ -32,22 +32,23 @@ class ApiController extends Controller
     public function getBeaterToken() // Função para obter o token de acesso
     {
         // Verifica se o cabeçalho Authorization está presente
-    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-        $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
-    } elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
-        // Alternativa em caso de redirecionamento de cabeçalhos
-        $authHeader = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+        if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            $authHeader = $_SERVER['HTTP_AUTHORIZATION'];
+        } elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+            // Alternativa em caso de redirecionamento de cabeçalhos
+            $authHeader = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+        }
+
+        if (!empty($authHeader)) { // Verifica se o token começa com "Bearer "
+            if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+                $bearerToken = $matches[1];
+                // Agora você pode utilizar o token conforme necessário
+                return $bearerToken;
+            }
+        }
+        return null;
     }
 
-    if (!empty($authHeader)) { // Verifica se o token começa com "Bearer "
-        if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
-            $bearerToken = $matches[1];
-            // Agora você pode utilizar o token conforme necessário
-            return $bearerToken;
-        }
-    }
-    return null;
-}
     // Ação para cadastrar clientes na API externa
     public function actionCustomer()
     {
@@ -60,10 +61,11 @@ class ApiController extends Controller
             // Faz a requisição para a API externa com os dados do cliente
             $response = $this->makeRequest($url, json_encode($clientes), $accessToken);
 
-            if ($response) {
-                echo json_encode(['success' => 'Cliente cadastrado com sucesso', 'id' => $response['id']]);
+            if (isset($response['error'])) {
+                // Retorna a mensagem de erro detalhada se houver
+                echo json_encode(['error' => $response['error']]);
             } else {
-                echo json_encode(['error' => 'Erro ao cadastrar cliente']);
+                echo json_encode(['success' => 'Cliente cadastrado com sucesso', 'id' => $response['id']]);
             }
         } else {
             echo json_encode(['error' => 'Token de acesso ou dados de cliente ausentes']);
@@ -87,17 +89,24 @@ class ApiController extends Controller
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-            if ($httpCode == 200 || $httpCode == 201) {
-            return json_decode($response, true);
+        // Tenta decodificar a resposta da API
+        $decodedResponse = json_decode($response, true);
+
+        if ($httpCode == 200 || $httpCode == 201) {
+            return $decodedResponse;
         } elseif ($httpCode == 400) {
             // Bad Request: A solicitação tem dados inválidos
-            return ['error' => 'Requisição inválida. Verifique se os dados enviados estão corretos.'];
+            return ['error' => isset($decodedResponse['error']) ? $decodedResponse['error'] : 'Requisição inválida. Verifique se os dados (CPF/CNPJ) enviados estão corretos.'];
+
         } elseif ($httpCode == 401) {
             // Unauthorized: Falha de autenticação, token inválido ou expirado
             return ['error' => 'Não autorizado. Verifique as credenciais ou token de acesso.'];
         } elseif ($httpCode == 404) {
             // Not Found: O recurso solicitado não foi encontrado
-            return ['error' => 'C não encontrado. Verifique a URL ou o ID do recurso.'];
+            return ['error' => 'Cliente não encontrado. Verifique a URL ou o ID do recurso.'];
+        } elseif ($httpCode == 422) {
+            // Unprocessable Entity: Erros de validação dos dados enviados
+            return ['error' => isset($decodedResponse['details']['message']) ? $decodedResponse['details']['message'] : 'Não foi possível processar sua solicitação / O cliente não pode pertencer a mais de um grupo, podendo ser apenas pessoa física ou jurídica ou estrangeiro'];
         } elseif ($httpCode == 500) {
             // Internal Server Error: Erro interno do servidor na API
             return ['error' => 'Erro interno no servidor. Tente novamente mais tarde.'];
@@ -109,4 +118,3 @@ class ApiController extends Controller
         return null;
     }
 }
-
