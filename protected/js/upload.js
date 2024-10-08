@@ -1,5 +1,3 @@
-let clientData = []; // Variável global para armazenar os dados dos clientes
-
 function formatDate(dateString) {
     const dateParts = dateString.split('/');
     if (dateParts.length === 3) {
@@ -7,6 +5,8 @@ function formatDate(dateString) {
     }
     return null;
 }
+
+let clientData = []; // Variável para armazenar os dados dos clientes
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('uploadForm').onsubmit = async function(event) {
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const textResponse = await response.text(); 
             console.log('Texto da resposta:', textResponse); 
 
-            clientData = JSON.parse(textResponse); // Armazenar os dados dos clientes
+            clientData = JSON.parse(textResponse); // Armazena os dados dos clientes
             console.log('Dados recebidos:', clientData);
 
             if (clientData.errors && clientData.errors.length > 0) {
@@ -57,15 +57,37 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     async function authenticateAndRegister() {
+        let authData;
         const storedToken = localStorage.getItem('accessToken');
+        const tokenExpiration = localStorage.getItem('tokenExpiration');
+        const now = Math.floor(Date.now() / 1000); // Tempo atual em segundos
 
-        if (!storedToken) {
-            throw new Error('Token de acesso não encontrado.');
+        console.log('Token armazenado:', storedToken);
+        console.log('Expiração do token:', tokenExpiration);
+        console.log('Tempo atual:', now);
+
+        // Verifica se o token armazenado ainda é válido
+        if (storedToken && tokenExpiration) {
+            console.log('Verificando validade do token...');
+            console.log('Token de expiração:', tokenExpiration);
+            console.log('Token atual:', now);
+
+            if (now < tokenExpiration) {
+                authData = { accessToken: storedToken };
+                console.log('Token válido encontrado, utilizando o token existente.');
+            } else {
+                console.log('Token expirado, solicitando novo token.');
+                throw new Error('Token de acesso não encontrado ou expirado.');
+            }
+        } else {
+            // Se não há token válido, solicita novo token
+            console.log('Nenhum token encontrado.');
+            throw new Error('Token de acesso não encontrado ou expirado.');
         }
 
         const successResults = [];
         const errorResults = [];
-        const totalClients = clientData.length; // Use a variável global
+        const totalClients = clientData.length; // Usa a variável clientData
 
         showProgressBar();
 
@@ -143,18 +165,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                const registerData = await Api.registerCustomer(clienteObj, storedToken);
+                const registerData = await Api.registerCustomer(clienteObj, authData.accessToken);
                 if (registerData.success) {
                     successResults.push({ id: registerData.id, name: clienteObj.name });
                 } else {
                     throw new Error(registerData.error || 'Erro ao cadastrar cliente');
                 }
             } catch (error) {
-                errorResults.push({
-                    line: index + 1,
-                    name: clienteObj.name,
-                    error: 'Erro: ' + (error.message || 'Erro inesperado.')
-                });
+                if (error.message.includes('400')) { 
+                    errorResults.push({ line: index + 1, name: clienteObj.name, error: 'Erro de validação: ' + error.message });
+                } else {
+                    errorResults.push({ line: index + 1, name: clienteObj.name, error: 'Erro inesperado: ' + error.message });
+                }
             }
 
             const percentage = Math.round(((index + 1) / totalClients) * 100);
@@ -170,9 +192,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         $('#successModal').modal('show'); // Mostra o modal de sucesso
-
-        localStorage.removeItem('accessToken');
-        console.log('Token removido do localStorage');
     }
 
     // Adiciona o evento de submit ao formulário de login
@@ -181,13 +200,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-
+    
         try {
-            const authData = await Api.authenticate({ username, password }); // Chama a função de autenticação com credenciais
+            const authData = await Api.authenticate({ username, password });
             if (authData.accessToken) {
-                localStorage.setItem('accessToken', authData.accessToken); // Armazena o token
-
-                // Fecha o modal de login e chama a função de registro
+                const tokenExpiration = Math.floor(Date.now() / 1000) + (authData.expiresIn || 3600); // Valor padrão se expiresIn não for fornecido
+                console.log('Token de acesso:', authData.accessToken);
+                console.log('Duração do token em segundos:', authData.expiresIn);
+                console.log('Tempo de expiração do token:', tokenExpiration);
+    
+                localStorage.setItem('accessToken', authData.accessToken);
+                localStorage.setItem('tokenExpiration', tokenExpiration);
+    
                 document.getElementById('loginModal').style.display = 'none';
                 await authenticateAndRegister(); // Chama a função para registrar os clientes com o token obtido
             } else {
@@ -198,20 +222,20 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Falha na autenticação. Por favor, tente novamente.');
         }
     };
+    
+    function showProgressBar() {
+        document.getElementById('progressBarContainer').style.display = 'block';
+        updateProgressBar(0); 
+    }
+
+    function updateProgressBar(percentage) {
+        const progressBar = document.getElementById('progressBar');
+        progressBar.style.width = percentage + '%';
+        progressBar.setAttribute('aria-valuenow', percentage);
+        progressBar.textContent = percentage + '%';
+    }
+
+    function hideProgressBar() {
+        document.getElementById('progressBarContainer').style.display = 'none';
+    }
 });
-
-function showProgressBar() {
-    document.getElementById('progressBarContainer').style.display = 'block';
-    updateProgressBar(0); 
-}
-
-function updateProgressBar(percentage) {
-    const progressBar = document.getElementById('progressBar');
-    progressBar.style.width = percentage + '%';
-    progressBar.setAttribute('aria-valuenow', percentage);
-    progressBar.textContent = percentage + '%';
-}
-
-function hideProgressBar() {
-    document.getElementById('progressBarContainer').style.display = 'none';
-}
