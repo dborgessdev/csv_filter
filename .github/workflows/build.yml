@@ -65,7 +65,7 @@ jobs:
 
     steps:
       - name: Install service memcached
-        uses: niden/actions-memcached@v7
+        uses: niden/actions-memcached@v8
 
       - name: Checkout
         uses: actions/checkout@v3
